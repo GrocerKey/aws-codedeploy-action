@@ -51,7 +51,7 @@ if [ -z "$INPUT_ARCHIVE" ]; then
 
     echo "::debug::Zip directory located (with appspec.yml)."
 
-    ZIP_FILENAME=$GITHUB_RUN_ID-$GITHUB_SHA.zip
+    ZIP_FILENAME=$INPUT_CODEDEPLOY_NAME-$INPUT_CODEDEPLOY_GROUP.zip
 
     # This creates a temp file to explode space delimited excluded files
     # into newline delimited exclusions passed to "-x" on the zip command.
@@ -197,6 +197,9 @@ if $INPUT_CODEDEPLOY_REGISTER_ONLY; then
     registerRevision
     echo -e "${BLUE}Registered deployment to ${RESET_TEXT}$INPUT_CODEDEPLOY_GROUP!";
 else
+    echo -e "${BLUE}Registering deployment to ${RESET_TEXT}$INPUT_CODEDEPLOY_GROUP.";
+    registerRevision
+    echo -e "${BLUE}Registered deployment to ${RESET_TEXT}$INPUT_CODEDEPLOY_GROUP!";
     echo -e "${BLUE}Deploying to ${RESET_TEXT}$INPUT_CODEDEPLOY_GROUP.";
     DEPLOYMENT_ID=$(deployRevision)
 
@@ -204,5 +207,5 @@ else
     pollForSpecificDeployment "$DEPLOYMENT_ID"
     echo -e "${GREEN}Deployed to ${RESET_TEXT}$INPUT_CODEDEPLOY_GROUP!";
 fi
-
+    echo -e "${GREEN}Latest eTag: ${RESET_TEXT}$ZIP_ETAG"
 exit 0;
