@@ -1,6 +1,6 @@
-name: 'Sourcetoad - AWS CodeDeploy for GitHub Actions'
+name: 'AWS CodeDeploy for GitHub Actions'
 description: 'Deploy projects to EC2 via CodeDeploy for GitHub Actions'
-author: Sourcetoad
+author: Sourcetoad, Point Pickup
 branding:
   color: 'yellow'
   icon: 'server'
@@ -25,35 +25,21 @@ inputs:
   directory:
     description: 'Directory to be archived instead of entire workspace.'
     required: false
-  archive:
-    description: 'Zip to be used for deployment, instead of archiving a directory.'
-    required: false
-  excluded_files:
-    description: 'Files to be excluded during archiving (space delimited).'
-    required: false
   codedeploy_name:
     description: 'AWS CodeDeploy Application Name'
     required: true
   codedeploy_group:
     description: 'AWS CodeDeploy Application Group'
     required: true
-  codedeploy_register_only:
-    description: 'Whether to register the deployment (vs automatic deploy).'
-    required: false
-    default: 'false'
   max_polling_iterations:
-    description: 'Max amount of iterations (15s increments) to wait for a deployment'
+    description: 'Max amount of iterations (60s increments) to wait for a deployment'
     required: false
     default: '60'
-  dry_run:
-    description: 'Whether to skip all AWS related steps.'
-    required: false
-    default: 'false'
 outputs:
   zip_filename:
     description: 'Filename of generated zip file.'
-  etag:
-    description: 'ETag for the generated zip file reported by AWS.'
+  deployment_id:
+    description: 'Deployment ID of the created deployment, reported by CodeDeploy.'
 runs:
     using: 'docker'
     image: 'Dockerfile'
